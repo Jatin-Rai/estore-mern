@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { FaHome, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaCaretDown, FaHome, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useLogoutMutation } from '../../features/slices/usersApiSlice';
 import { logout } from '../../features/slices/authSlice';
 
 const Header = () => {
+    const { keyword: urlKeyword } = useParams();
+
     const [open, setOpen] = useState(false);
     const { cartItems } = useSelector(state => state.cart);
     const { userInfo } = useSelector((state) => state.auth);
+
+    const [keyword, setKeyword] = useState(urlKeyword || '');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,6 +35,19 @@ const Header = () => {
         setOpen(!open);
     }
 
+    const submitHandler = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+        if (keyword.trim()) {
+            navigate(`/search/${keyword}`);
+        } else {
+            navigate('/');
+        }
+        setKeyword('');
+    }
+
+
     return (
         <header className="bg-gray-900 text-white">
             <div className="container mx-auto py-4 px-4 flex items-center justify-between">
@@ -38,22 +55,35 @@ const Header = () => {
                     eStore
                 </Link>
                 <div className="group relative md:flex items-center flex-shrink outline-none rounded-full w-1/2">
+                    {/* search */}
                     <input
                         type="text"
-                        className="w-full py-1.5 pl-10 pr-3 text-gray-900 placeholder:text-gray-400 outline-none rounded-full"
-                        placeholder="Search..."
+                        name="q"
+                        onChange={(e) => setKeyword(e.target.value)}
+                        value={keyword}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                submitHandler(e);
+                            }
+                        }}
+                        className="w-full py-1.5 pl-5 pr-3 text-gray-900 placeholder:text-gray-400 outline-none rounded-full"
+                        placeholder="Search Products..."
                     />
-                    <div className="absolute text-gray-400 left-3 top-3">
-                        <FaSearch />
-                    </div>
+
+                    <button
+                        className="absolute text-gray-900 hover:text-white right-0 bg-gray-300 hover:bg-gray-500 py-2.5 px-5 rounded-r-full"
+                        onClick={() => submitHandler()}
+                    >
+                         <FaSearch />
+                    </button>
                 </div>
                 <div className="hidden md:flex items-center gap-8">
                     <Link to="/cart" className="relative flex items-center hover:text-gray-200 cursor-pointer">
-                        <div className='flex items-center gap-4'>
-                            <FaShoppingCart size={30} />
+                        <div className='flex items-center gap-1'>
+                            <FaShoppingCart size={24} />
                             {cartItems.length > 0 && (
-                                <span className="absolute w-5 h-5 rounded-full bg-blue-500 -top-1 left-4 flex items-center justify-center">
-                                    <span className="text-xs text-white"
+                                <span className="flex items-center justify-center bg-green-500 rounded px-1.5 py-0.5">
+                                    <span className="text-xs font-semibold text-white"
                                     >
                                         {cartItems.reduce((a, c) => a + c.qty, 0)}
                                     </span>
@@ -76,8 +106,11 @@ const Header = () => {
                                     <div className="text-white text-lg"
                                     >
                                         <div className="flex items-center gap-2 cursor-pointer capitalize">
-                                            <FaUser size={28} />
+                                            <FaUser size={20} />
+                                            <span className='flex items-center gap-1'>
                                             {userInfo.name}
+                                            <FaCaretDown className='text-sm' />
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

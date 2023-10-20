@@ -12,7 +12,8 @@
     "client": "yarn --cwd frontend dev",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "data:import": "node backend/seeder.js",
-    "data:destroy": "node backend/seeder.js -d"
+    "data:destroy": "node backend/seeder.js -d",
+    "build": "yarn && yarn --cwd frontend build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

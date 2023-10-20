@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../features/slices/cartSlice';
 import { toast } from 'react-toastify';
 import StarRating from '../../components/StarRating';
+import Meta from '../../components/Meta/Meta'
 
 
 const ProductDetailsPage = () => {
@@ -59,6 +60,7 @@ const ProductDetailsPage = () => {
             </Link>
             {isLoading ? (<Loader />) : error ? (<Message variant="bg-red-500">{error.data.message || error.error}</Message>) : (
                 <>
+                    <Meta title={product.name} />
                     <div className="flex flex-col justify-center mt-2">
                         <div
                             className="flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg max-w-6xl mx-auto border border-white bg-white">

@@ -4,12 +4,15 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../../features/slices/productsApiSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Paginate from '../../../components/Paginate';
 
 const ProductsListPage = () => {
 
-    const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+    const { pageNumber } = useParams();
+
+    const { data, isLoading, error, refetch } = useGetProductsQuery({pageNumber});
 
     const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
 
@@ -57,7 +60,7 @@ const ProductsListPage = () => {
             {isLoading
                 ? <Loader />
                 : error
-                    ? <Message variant='bg-red-500'>{error}</Message>
+                    ? <Message variant='bg-red-500'>{error.message}</Message>
                     : (
                         <table className='w-full mt-5'>
                             <thead>
@@ -71,7 +74,7 @@ const ProductsListPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {products.map((product) => (
+                                {data.products.map((product) => (
                                     <tr key={product._id} className='hover:bg-gray-100'>
                                         <td>{product._id}</td>
                                         <td>{product.name}</td>
@@ -98,6 +101,7 @@ const ProductsListPage = () => {
                                     </tr>
                                 ))}
                             </tbody>
+                                <Paginate pages={data.pages} page={data.page} isAdmin="true" />
                         </table>
                     )
             }

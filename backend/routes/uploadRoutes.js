@@ -39,8 +39,8 @@ router.post('/', (req, res) => {
       return res.status(400).send({ message: err.message });
     }
 
-    // Construct the image URL using path.join and replace backslashes with forward slashes
-    const imagePath = path.join('/uploads', req.file.filename).replace(/\\/g, '/');
+    // Construct the image URL correctly
+    const imagePath = `/uploads/${req.file.filename}`;
     
     res.status(200).send({
       message: 'Image uploaded successfully',
@@ -48,5 +48,6 @@ router.post('/', (req, res) => {
     });
   });
 });
+
 
 export default router;
