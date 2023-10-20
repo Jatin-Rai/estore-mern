@@ -12,6 +12,7 @@ export default defineConfig({
         secure: false,
         ws: true
       },
+      "/uploads": "http://localhost:5000",
     },
   },
 })
