@@ -129,7 +129,7 @@ const PlaceOrderPage = () => {
                                         icon={<MdError />}
                                         variant={`bg-red-500`}
                                     >
-                                        {error}
+                                        {error.data.message}
                                     </Message>}
                                 </td>
                             </tr>

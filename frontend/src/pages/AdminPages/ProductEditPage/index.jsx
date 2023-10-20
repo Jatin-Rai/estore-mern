@@ -95,7 +95,7 @@ const ProductEditPage = () => {
                 {isLoading
                     ? <Loader />
                     : error
-                        ? <Message variant='bg-red-500'>{error.message}</Message>
+                        ? <Message variant='bg-red-500'>{error.data.message}</Message>
                         : (
                             <form onSubmit={submitHandler} className='mt-5 flex flex-col'>
                                 <div className='flex gap-4 my-2'>

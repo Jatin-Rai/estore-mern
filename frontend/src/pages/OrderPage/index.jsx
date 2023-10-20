@@ -47,7 +47,7 @@ const OrderPage = () => {
     function onApprove(data, actions) {
         return actions.order.capture().then(async function (details) {
             try {
-                await payorder({ orderId, details });
+                await payorder({ orderId, details }).unwrap();
                 refetch();
                 toast.success('Payment Successful');
             } catch (error) {
@@ -96,7 +96,7 @@ const OrderPage = () => {
         )
         : error ? (
             <Message variant={`bg-red-500`}>
-                {error}
+                {error?.data?.message || error.error}
             </Message>
         )
             : (
@@ -204,7 +204,7 @@ const OrderPage = () => {
                                                 icon={<MdError />}
                                                 variant={`bg-red-500`}
                                             >
-                                                {error}
+                                                {error?.data?.message || error.error}
                                             </Message>}
                                         </td>
                                     </tr>

@@ -60,7 +60,7 @@ const ProductsListPage = () => {
             {isLoading
                 ? <Loader />
                 : error
-                    ? <Message variant='bg-red-500'>{error.message}</Message>
+                    ? <Message variant='bg-red-500'>{error.data.message}</Message>
                     : (
                         <table className='w-full mt-5'>
                             <thead>

@@ -140,7 +140,7 @@ const ProductDetailsPage = () => {
                                 <h2>Write a review</h2>
                                 {loadingProductReview && <Loader />}
 
-                                {userInfo ? (
+                                {userInfo && !userInfo.isAdmin ? (
                                     <form onSubmit={submitHandler}>
                                         <div className='flex flex-col gap-2 py-2'>
                                             <label htmlFor="rating" className=''>Rating</label>
@@ -179,7 +179,7 @@ const ProductDetailsPage = () => {
                                         </div>
                                     </form>
                                 ) : (
-                                    <Message variant='text-black'>
+                                    <Message variant='bg-yellow-500'>
                                         Please <Link to='/login' className='text-blue-500 underline cursor-pointer'>sign in</Link> to write a review
                                     </Message>
                                 )}

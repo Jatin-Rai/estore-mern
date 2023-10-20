@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useLogoutMutation } from '../../features/slices/usersApiSlice';
 import { logout } from '../../features/slices/authSlice';
+import { resetCart } from '../../features/slices/cartSlice';
 
 const Header = () => {
     const { keyword: urlKeyword } = useParams();
@@ -25,6 +26,7 @@ const Header = () => {
         try {
             await logoutApiCall().unwrap();
             dispatch(logout());
+            dispatch(resetCart());
             navigate('/login');
         } catch (error) {
             console.log(error);
@@ -74,7 +76,7 @@ const Header = () => {
                         className="absolute text-gray-900 hover:text-white right-0 bg-gray-300 hover:bg-gray-500 py-2.5 px-5 rounded-r-full"
                         onClick={() => submitHandler()}
                     >
-                         <FaSearch />
+                        <FaSearch />
                     </button>
                 </div>
                 <div className="hidden md:flex items-center gap-8">
@@ -94,7 +96,7 @@ const Header = () => {
                     </Link>
                     {userInfo ? (
                         <div
-                            className={`shadow flex justify-center items-center relative ${open ? 'outline-blue-500' : 'border-transparent'
+                            className={`shadow z-50 flex justify-center items-center relative ${open ? 'outline-blue-500' : 'border-transparent'
                                 }`}
                             onClick={toggleMenu}
                         >
@@ -108,8 +110,8 @@ const Header = () => {
                                         <div className="flex items-center gap-2 cursor-pointer capitalize">
                                             <FaUser size={20} />
                                             <span className='flex items-center gap-1'>
-                                            {userInfo.name}
-                                            <FaCaretDown className='text-sm' />
+                                                {userInfo.name}
+                                                <FaCaretDown className='text-sm' />
                                             </span>
                                         </div>
                                     </div>
