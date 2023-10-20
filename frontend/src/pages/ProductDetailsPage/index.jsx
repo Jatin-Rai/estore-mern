@@ -54,72 +54,70 @@ const ProductDetailsPage = () => {
     }
 
     return (
-        <div className='h-full'>
+        <div className='container mx-auto p-4'>
             <Link to="/">
                 <FaArrowLeft className='text-xl' />
             </Link>
-            {isLoading ? (<Loader />) : error ? (<Message variant="bg-red-500">{error.data.message || error.error}</Message>) : (
+            {isLoading ? (
+                <Loader />
+            ) : error ? (
+                <Message variant="bg-red-500">{error.data.message || error.error}</Message>
+            ) : (
                 <>
                     <Meta title={product.name} />
-                    <div className="flex flex-col justify-center mt-2">
-                        <div
-                            className="flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg max-w-6xl mx-auto border border-white bg-white">
-                            <div className="w-full md:w-full bg-white grid place-items-center">
-                                <img src={product.image} alt={product.name} className='h-fit' />
-                            </div>
-                            <div className='flex flex-col gap-2 px-5'>
-                                <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
-                                    <div className="flex justify-between item-center">
-                                        <p className="text-gray-500 font-medium hidden md:block">{product.category}</p>
-                                        <div className="flex items-center">
-                                            <FaStar className='text-yellow-400' />
-                                            <p className="text-gray-600 font-bold text-sm ml-1">
-                                                {product.rating}{" "}
-                                                <span className="text-gray-500 font-normal">({product.numReviews} reviews)</span>
-                                            </p>
-                                        </div>
-
-                                        <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-                                            {product.brand}
-                                        </div>
+                    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 rounded-xl shadow-lg max-w-6xl mx-auto border border-white bg-white">
+                        <div className="w-full md:w-full bg-white flex items-center justify-center">
+                            <img src={product.image} alt={product.name} className='w-full max-w-sm md:max-w-md' />
+                        </div>
+                        <div className='flex flex-col gap-2 px-5 py-2'>
+                            <div className="w-full bg-white flex flex-col space-y-2 p-3">
+                                <div className="flex justify-between item-center">
+                                    <p className="text-gray-500 font-medium">{product.category}</p>
+                                    <div className="flex items-center">
+                                        <FaStar className='text-yellow-400' />
+                                        <p className="text-gray-600 font-bold text-sm ml-1">
+                                            {product.rating}{" "}
+                                            <span className="text-gray-500 font-normal">({product.numReviews} reviews)</span>
+                                        </p>
                                     </div>
-                                    <h3 className="font-black text-gray-800 md:text-3xl text-xl">{product.name}</h3>
-                                    <p className="md:text-lg text-gray-500 text-base">
-                                        {product.description}
-                                    </p>
-                                    <p className="text-xl font-black text-gray-800">
-                                        Price: ${product.price}
-                                    </p>
-                                    <span className="font-normal text-gray-600 text-base">
-                                        Status: {product.countInStock > 0 ? `${product.countInStock} In Stocks` : "Out of Stock"}</span>
-
                                 </div>
-                                {product.countInStock > 0 && (
-                                    <div className='px-3 py-2'>
-                                        <label className='font-semibold'>Qty:</label>
-                                        <select
-                                            className='ml-2 border-2 px-1'
-                                            onChange={(e) => setQty(Number(e.target.value))}
-                                        >
-                                            {[...Array(product.countInStock).keys()].map((x) => (
-                                                <option
-                                                    key={x + 1}
-                                                    value={x + 1}
-                                                >
-                                                    {x + 1}
-                                                </option>
-                                            ))}
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                )}
-                                <button
-                                    className={`rounded-md text-white py-2  shadow ${product.countInStock === 0 ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"}`} disabled={product.countInStock === 0}
-                                    onClick={addToCartHandler}
-                                >
-                                    Add to Cart
-                                </button>
+                                <h3 className="font-black text-gray-800 md:text-3xl text-xl">{product.name}</h3>
+                                <p className="md:text-lg text-gray-500 text-base">
+                                    {product.description}
+                                </p>
+                                <p className="text-xl font-black text-gray-800">
+                                    Price: ${product.price}
+                                </p>
+                                <span className="font-normal text-gray-600 text-base">
+                                    Status: {product.countInStock > 0 ? `${product.countInStock} In Stocks` : "Out of Stock"}
+                                </span>
                             </div>
+                            {product.countInStock > 0 && (
+                                <div className='px-3 py-2'>
+                                    <label className='font-semibold'>Qty:</label>
+                                    <select
+                                        className='ml-2 border-2 px-1'
+                                        onChange={(e) => setQty(Number(e.target.value))}
+                                    >
+                                        {[...Array(product.countInStock).keys()].map((x) => (
+                                            <option
+                                                key={x + 1}
+                                                value={x + 1}
+                                            >
+                                                {x + 1}
+                                            </option>
+                                        ))}
+                                        <option></option>
+                                    </select>
+                                </div>
+                            )}
+                            <button
+                                className={`rounded-md text-white py-2 shadow ${product.countInStock === 0 ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"}`}
+                                disabled={product.countInStock === 0}
+                                onClick={addToCartHandler}
+                            >
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
                     <div className='flex flex-col'>
@@ -146,7 +144,7 @@ const ProductDetailsPage = () => {
                                             <label htmlFor="rating" className=''>Rating</label>
                                             <select
                                                 name="rating" id="rating"
-                                                className='border-2 border-gray-600 rounded w-1/6'
+                                                className='border-2 border-gray-600 rounded sm:w-1/6'
                                                 value={rating}
                                                 onChange={(e) => setRating(e.target.value)}
                                             >
@@ -164,7 +162,7 @@ const ProductDetailsPage = () => {
                                             <textarea
                                                 name="comment" id="comment"
                                                 rows="4"
-                                                className='border-2 rounded w-1/3 mt-3 p-1 resize-none'
+                                                className='border-2 rounded sm:w-1/3 mt-3 p-1 resize-none'
                                                 placeholder='write your review here'
                                                 value={comment}
                                                 onChange={(e) => setComment(e.target.value)}
@@ -172,7 +170,7 @@ const ProductDetailsPage = () => {
                                             <button
                                                 type='submit'
                                                 disabled={loadingProductReview}
-                                                className={`${loadingProductReview ? 'bg-gray-400' : 'bg-gray-900'} text-white p-1 rounded w-20 mt-4`}
+                                                className={`${loadingProductReview ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-900'} text-white p-1 rounded sm:w-20 mt-4`}
                                             >
                                                 Submit
                                             </button>

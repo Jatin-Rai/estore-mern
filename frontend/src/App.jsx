@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="px-16 py-8">
+      <main className="px-2 sm:px-16 py-8">
         <Outlet />
       </main>
       <Footer />

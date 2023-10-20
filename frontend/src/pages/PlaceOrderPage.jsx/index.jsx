@@ -7,7 +7,6 @@ import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useCreateOrderMutation } from '../../features/slices/ordersApiSlice';
 import { clearCartItems } from '../../features/slices/cartSlice';
-
 import { MdError } from 'react-icons/md';
 
 const PlaceOrderPage = () => {
@@ -44,78 +43,74 @@ const PlaceOrderPage = () => {
     }
 
     return (
-        <div className='h-screen'>
+        <div className="container h-screen mx-auto p-4">
             <CheckoutSteps step1 step2 step3 step4 />
-            <div className='grid grid-cols-4 px-28 sm:px-0 pt-10'>
-                <div className='col-span-3'>
-                    <ul className='flex flex-col gap-5'>
-                        <li>
-                            <h2 className='font-bold text-xl mb-4'>Shipping</h2>
-                            <p>
-                                <strong>Address: </strong>
-                                {cart.shippingAddress.address},{" "}{cart.shippingAddress.city}, {" "}{cart.shippingAddress.province} - {cart.shippingAddress.postalCode},{" "}{cart.shippingAddress.country}
-                            </p>
-                        </li>
-                        <li>
-                            <h2 className='font-bold text-xl mb-4'>Payment Method</h2>
-                            <p>
-                                <strong>Method: </strong>
-                                {cart.paymentMethod}
-                            </p>
-                        </li>
-                        <li>
-                            <h2 className='font-bold text-xl mb-4'>Order Items</h2>
-                            <p>
-                                {cart.cartItems.length === 0
-                                    ? (<Message>Your cart is empty</Message>)
-                                    : (
-                                        <ul>
-                                            {cart.cartItems.map((item, index) => (
-                                                <li
-                                                    key={index}
-                                                    className='flex items-center gap-10 mb-2'
-                                                >
-                                                    <img src={item.image} alt={item.name} className='h-10 rounded' />
-                                                    <Link to={`/product/${item._id}`}
-                                                        className='text-sm underline'
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                    <p className='italic'>{item.qty} x {item.price} = ${item.qty * item.price}</p>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                            </p>
-                        </li>
-                    </ul>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                <div className="col-span-1 sm:col-span-2">
+                    <div>
+                        <h2 className="font-bold text-xl mb-4">Shipping</h2>
+                        <p>
+                            <strong>Address: </strong>
+                            {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.province} - {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 className="font-bold text-xl mb-4">Payment Method</h2>
+                        <p>
+                            <strong>Method: </strong> {cart.paymentMethod}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 className="font-bold text-xl mb-4">Order Items</h2>
+                        <p>
+                            {cart.cartItems.length === 0 ? (
+                                <Message>Your cart is empty</Message>
+                            ) : (
+                                <ul>
+                                    {cart.cartItems.map((item, index) => (
+                                        <li key={index} className="flex items-center gap-5 mb-2">
+                                            <img src={item.image} alt={item.name} className="h-10 rounded" />
+                                            <Link to={`/product/${item._id}`} className="text-sm underline">
+                                                {item.name}
+                                            </Link>
+                                            <p className="italic">{item.qty} x {item.price} = ${item.qty * item.price}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </p>
+                    </div>
                 </div>
-                <div className='col-span-1'>
-                    <div className='shadow p-2'>
-                        <h2 className='font-bold text-lg text-center'>Order Summary</h2>
+                <div className="col-span-1">
+                    <div className="shadow p-2">
+                        <h2 className="font-bold text-lg text-center">Order Summary</h2>
                         <hr />
-                        <table className='w-full'>
+                        <table className="w-full">
                             <tr>
                                 <td>Items:</td>
-                                <td className='text-end'>${cart.itemsPrice}</td>
+                                <td className="text-end">${cart.itemsPrice}</td>
                             </tr>
                             <tr>
                                 <td>Shipping:</td>
-                                <td className='text-end'>${cart.shippingPrice}</td>
+                                <td className="text-end">${cart.shippingPrice}</td>
                             </tr>
                             <tr>
                                 <td>Tax:</td>
-                                <td className='text-end'>${cart.taxPrice}</td>
+                                <td className="text-end">${cart.taxPrice}</td>
                             </tr>
-
-                            <tr className='border-t-2 font-bold'>
+                            <tr className="border-t-2 font-bold">
                                 <td>Total:</td>
-                                <td className='text-end'>${cart.totalPrice}</td>
+                                <td className="text-end">${cart.totalPrice}</td>
                             </tr>
-                            <tr className='border-t-2'>
-                                <td className='pt-2'>
+                            <tr className="border-t-2">
+                                <td></td>
+                                <td className="pt-2 text-end">
                                     <button
-                                        className={`${cart.cartItems.length === 0 ? "bg-gray-400" : "bg-gray-900"} text-white p-2`}
+                                        className={`${
+                                            cart.cartItems.length === 0
+                                                ? "bg-gray-400"
+                                                : "bg-gray-700 hover:bg-gray-900"
+                                        } text-white rounded p-2`}
                                         disabled={cart.cartItems.length === 0}
                                         onClick={placeOrderHandler}
                                     >
@@ -127,7 +122,7 @@ const PlaceOrderPage = () => {
                                 <td>
                                     {isLoading && <Loader /> || error && <Message
                                         icon={<MdError />}
-                                        variant={`bg-red-500`}
+                                        variant="bg-red-500"
                                     >
                                         {error.data.message}
                                     </Message>}
@@ -135,11 +130,10 @@ const PlaceOrderPage = () => {
                             </tr>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PlaceOrderPage
+export default PlaceOrderPage;

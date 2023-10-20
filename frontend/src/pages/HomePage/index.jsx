@@ -32,14 +32,16 @@ const HomePage = () => {
                     {error?.data?.message || error.error}
                 </Message>
             ) : (
-                        <div>
-                            <Meta />
+                <div>
+                    <Meta />
                     <h1 className='text-3xl font-bold pb-5'>Latest Products</h1>
-                    <ul className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
+                    <ul className='grid grid-flow-row sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5'>
                         {data.products.map((product) => (
-                            <>
-                                <Product key={product._id} className='border border-red-500 rounded-md shadow' product={product} />
-                            </>
+                            <Product
+                                key={product._id}
+                                className='border border-red-500 rounded-md shadow'
+                                product={product}
+                            />
                         ))}
                     </ul>
                     <div className='mt-10 flex justify-center items-center'>
