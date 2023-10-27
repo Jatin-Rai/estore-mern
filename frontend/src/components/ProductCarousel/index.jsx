@@ -58,7 +58,7 @@ const ProductCarousel = () => {
         </button>
         <button
           type="button"
-          className="flex absolute top-0 -right-4 z-30 justify-center items-center px-4 h-full cursor-pointer"
+          className="flex absolute top-0 -right-4 z-0 justify-center items-center px-4 h-full cursor-pointer"
           data-carousel-next="true"
           onClick={() => setCurrentSlide((currentSlide + 1) % products.length)}
         >

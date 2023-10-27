@@ -12,6 +12,8 @@ const Header = () => {
     const { keyword: urlKeyword } = useParams();
 
     const [open, setOpen] = useState(false);
+    const [mobileSidenavOpen, setMobileSidenavOpen] = useState(false);
+
     const { cartItems } = useSelector(state => state.cart);
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -36,6 +38,13 @@ const Header = () => {
     const toggleMenu = () => {
         setOpen(!open);
     }
+
+    const toggleMobileSidenav = () => {
+
+        setMobileSidenavOpen(prev => !prev);
+
+    };
+
 
     const submitHandler = async (e) => {
         if (e) {
@@ -137,14 +146,14 @@ const Header = () => {
                                                             to="/admin/productslist"
                                                             className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-blue-500"
                                                         >
-                                                            Products
+                                                            Products<span className='italic text-orange-500'>(admin)</span>
                                                         </Link>
                                                     </li>                                                <li className="font-medium">
                                                         <Link
                                                             to="/admin/userslist"
                                                             className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-blue-500"
                                                         >
-                                                            Users
+                                                            Users<span className='italic text-orange-500'>(admin)</span>
                                                         </Link>
                                                     </li>
                                                     <li className="font-medium">
@@ -152,7 +161,7 @@ const Header = () => {
                                                             to="/admin/orderlist"
                                                             className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-blue-500"
                                                         >
-                                                            Orders
+                                                            Orders<span className='italic text-orange-500'>(admin)</span>
                                                         </Link>
                                                     </li>
                                                 </>
@@ -200,9 +209,57 @@ const Header = () => {
                         </Link>
                     </button>
 
-                    <Link to='/login' className="md:hidden">
-                        <FaUser size={24} />
-                    </Link>
+                    {userInfo || userInfo && userInfo.isAdmin ? (
+                        <>
+                            <div className="md:hidden">
+                                <FaUser size={24} className='cursor-pointer' onClick={() => toggleMobileSidenav()} />
+                                {mobileSidenavOpen && (
+                                    <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 text-white z-50">
+                                        <div className="flex flex-col justify-center items-center h-full">
+                                            <div className="py-8">
+                                                <Link to="/profile" className="block px-4 py-3 hover:bg-gray-800" onClick={() => toggleMobileSidenav()}>
+                                                    Profile
+                                                </Link>
+                                                {userInfo && userInfo.isAdmin && (
+                                                    <>
+                                                        <Link to="/admin/productslist" className="block px-4 py-3 hover:bg-gray-800"
+                                                            onClick={() => toggleMobileSidenav()}
+                                                        >
+                                                            Products<span className='italic text-orange-500'>(admin)</span>
+                                                        </Link>
+                                                        <Link to="/admin/userslist" className="block px-4 py-3 hover-bg-gray-800"
+                                                            onClick={() => toggleMobileSidenav()}
+                                                        >
+                                                            Users<span className='italic text-orange-500'>(admin)</span>
+                                                        </Link>
+                                                        <Link to="/admin/orderlist" className="block px-4 py-3 hover-bg-gray-800"
+                                                            onClick={() => toggleMobileSidenav()}
+                                                        >
+                                                            Orders<span className='italic text-orange-500'>(admin)</span>
+                                                        </Link>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div className="mt-auto px-4 py-3">
+                                                <span className="block cursor-pointer hover:bg-gray-800" onClick={logoutHandler}>
+                                                    Logout
+                                                </span>
+                                            </div>
+                                            <div className="px-4 py-3 text-center cursor-pointer hover:bg-gray-800" onClick={toggleMobileSidenav}>
+                                                Close
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+
+                    ) : (
+                        <Link to='/login' className="md:hidden">
+                            <FaUser size={24} />
+                        </Link>
+                    )}
+
                 </div>
             </div>
         </header>
