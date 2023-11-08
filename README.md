@@ -19,3 +19,5 @@ This is a MERN Stack Ecommerce web application.
    4. View Orders List
    5. Payment Status
    6. Mark as Delivered
+
+*Please note that the hosting platform is quite slow and it takes sometime to load the page*
